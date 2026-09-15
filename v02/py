@@ -1,0 +1,25 @@
+
+
+vendors = { 
+    "00:30:a3": "cisco systems, inc",
+    "00:0c:85": "cisco Systems, inc",
+    "00:09:7c": "cisco systems, inc",
+}
+
+
+addresses = [ 
+    "00:30:a3:0a:6d:17",
+    "00:0c:85:91:bc:39",
+    "00:09:7c:b5:cc:a1",
+]
+
+for address in addresses:
+    prefix = address[0:8]
+
+
+    if prefix in vendors:
+        name = vendors[prefix]
+    else:
+        name = "okand tillverkare"
+
+    print(f"{address} -> {name}")
