@@ -1,0 +1,121 @@
+4.1 Vad är skillnaden mellan ett VLAN och ett IP-nät? 
+ Till en början så är det två olika lager, ett vlan handlar om vilka portar som är tillsammans och ett ip nät handlar om adresserna. Vlan lager 2 och ett ip när är lager 3.
+
+4.2 Vad skiljer en access-port från en trunk? En access-port är ett vlan medans en trunk har flera vlan.
+
+
+4.3 Vilka två rader behövs för att lägga en port i ett VLAN, och
+varför räcker inte den ena? switchport mode access och switchport access vlan tex. 10. Det räcker inte med den ena för att dem tillsammans gör så att du kommer vidare annars står du kvar.  
+4.4 Vad gör taggningen, och var i nätet finns taggen?
+Den skriver vlan numret i en ram, taggen är beroende av trunkar. Den sätts på när ramen går in i en trunk och kopplas av när den går ut på en access port. 
+4.5 Varför ska en trunk aldrig kopplas till en dator?
+En dator förstår inte taggade ramar, ingeting kommer att fungera 
+4.6 Vad är native VLAN, och vad är standardvärdet? ett vlan som går otaggat, standard värdet är alltid vlan 1 på swistcharna på CPT.
+
+4.7 Vad går fel om två switchar har olika native VLAN?
+olika native VLAN på trunkportarna gör att otaggad trafik placeras i olika VLAN på switcharna. Det kan orsaka kommunikationsfel och att trafik hamnar i fel nät.
+ 
+4.8 Vad förhindrar STP, och hur gör den det?
+STP förhindrar nätverksloopar genom att välja den bästa vägen genom nätverket och blockera överflödiga länkar. Om en aktiv länk går sönder kan STP aktivera en blockerad reservväg. 
+4.9 Vad betyder BLK i show spanning-tree, och vad ska du göra åt det?
+BLK betyder att STP har blockerat porten för att förhindra en nätverksloop. Man ska normalt inte göra något, eftersom porten fungerar som en reservväg och kan aktiveras om den ordinarie länken slutar fungera. 
+4.10 Vad händer om du kör switchport trunk allowed
+vlan två gånger med olika nummer? Det andra kommandot skriver över det första, så endast det senast angivna VLAN-numret tillåts. För att behålla tidigare VLAN måste man lägga till kommandot ”add” 
+4.11 Skriv den engelska termen för vart och ett av följande: access-
+port, trunk, taggning, native VLAN och root bridge. Provet frågar efter dem.
+
+Access-port, trunk, tagging, native vlan, root bridge 
+ 
+4.12 Nordviks fyra VLAN delar 192.168.1.0/24 i fyra lika stora
+delar. Räkna ut nätadress, gatewayadress, första och sista användbara adress samt
+broadcastadress för alla fyra. Använd schemat i bilaga C och skriv svaret som en
+tabell.
+
+VLAN 10 Nätadress: 192.168.1.0/26 Gateway: 192.168.1.1  Första användbara IP: 192.168.1.1 Sista användbara IP: 192.168.1.62  Broadcast: 192.168.1.63   VLAN 20 Nätadress: 192.168.1.64/26 Gateway: 192.168.1.65  Första användbara IP: 192.168.1.65 Sista användbara IP: 192.168.1.126  Broadcast: 192.168.1.127   VLAN 30 Nätadress: 192.168.1.128/26 Gateway: 192.168.1.129  Första användbara IP: 192.168.1.129 Sista användbara IP: 192.168.1.190  Broadcast: 192.168.1.191   VLAN 99 Nätadress: 192.168.1.192/26 Gateway: 192.168.1.193  Första användbara IP: 192.168.1.193 Sista användbara IP: 192.168.1.254  Broadcast: 192.168.1.255 
+4.13 Ekonomiavdelningen växer till 70 datorer. Räcker /26? Räkna
+ut hur många adresser en /26 ger, hur många av dem som går att använda, och
+vilken mask som skulle behövas i stället.
+
+Ett /26-nät ger 64 adresser totalt. När nätadressen och broadcast adressen räknas bort återstår 62 användbara adresser. Det räcker därför inte till 70 datorer.
+
+I stället behövs ett /25-nät. Det ger 128 adresser totalt och 126 användbara adresser. Nätmasken för /25 är 255.255.255.128. 
+
+4.14 [typ 3 • Läs utdatan] Här är ett utdrag från två switchar som är hopkopplade. Datorer i VLAN 20 når inte varandra över trunken, men VLAN 10 fungerar. Vad är fel?
+
+Sw1 tillåter bara 10,30 och 99 medans sw2 har dem + vlan 20. Det måste vara samma på båda för att trafiken ska kunna passera. 
+ 
+4.15 [typ 3 • Läs utdatan] Här är ett utdrag från en switch. En dator i port Gi0/5 får ingen adress från DHCP-servern, som sitter i VLAN 10. Vad frågar du efter härnäst?
+
+Dom är i olika vlan, jag frågar därför om datorn ska tillhöra VLAN 10 och kontrollerar portens VLAN-konfiguration med ”show interfaces gi0/5 switchport”. Om datorn ska ligga i VLAN 10 måste Gi0/5 konfigureras som en accessport i VLAN 10.
+
+4.16 [typ 4 • Konfigurationsövning] Skriv den fullständiga konfigurationen för trunken
+mellan SW-Nordvik-1 och SW-Nordvik-2. Den ska bära VLAN 10, 20, 30 och 99, ha
+native VLAN 999 och inte förhandla om läget. Skriv varje rad, i rätt ordning, från
+configure terminal till end.  configure terminal
+vlan 999
+name NATIVE
+exit
+interface gigabitEthernet0/24
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,99
+switchport trunk native vlan 999
+switchport nonegotiate
+end 
+4.17 [typ 4 • Konfigurationsövning] Port Gi0/11 till Gi0/14 på SW-Nordvik-1 ska läggas i
+VLAN 20 och slippa vänta på STP när en dator kopplas in. Skriv konfigurationen
+med så få rader som möjligt.
+
+configure terminal
+interface range gi0/11-14
+switchport mode access
+switchport access vlan 20
+spanning-tree portfast
+end 
+4.18 [typ 5 • Översätt kravet] Nordviks gäster ska kunna nå internet men ingenting annat i
+huset. Ekonomiavdelningen ska ha ett eget nät som varken kontoret eller gästerna
+når. Driftpersonalen ska kunna nå switcharna från sitt eget nät. Skriv den VLAN-
+konfiguration switchen behöver, och säg vilken del av kravet du inte kan lösa med
+VLAN ensamt.
+
+Detta behöver switchen:  configure terminal
+vlan 10
+name KONTOR
+exit
+vlan 20
+name EKONOMI
+exit
+vlan 30
+name GASTER
+exit
+vlan 99
+name DRIFT
+exit
+vlan 999
+name NATIVE
+exit
+end
+
+VLAN kan separera näten, men kan inte ensamt ge gästerna internetåtkomst samtidigt som åtkomsten till husets interna nät blockeras. Det kräver routing och ACL eller en brandvägg. 
+4.19 Skriv fem meningar till en kollega som aldrig hört talas om VLAN, där du förklarar varför två datorer i samma switch ändå inte kan nå varandra.
+
+Ett VLAN delar upp en switch i flera mindre nätverk. Två datorer kan sitta i samma switch men ändå tillhöra olika VLAN. Då håller switchen deras trafik åtskild. Därför kan datorerna inte prata direkt med varandra. För att de ska få kontakt behövs en router eller en switch som kan koppla ihop olika VLAN.
+
+
+Tre frågor från tidigare kapitel. De är korta och de är inte valfria. Skriv svaren i
+dagbok.md. 
+4.20 [typ 7 • Återblick] Räkna ut nätadress, broadcast och adressintervall för
+192.168.1.128/26. 
+
+Nätadress: 192.168.1.128 första användbara: 192.168.1.129
+Sista användbara: 192.168.1.190
+Adress intervall :192.168.1.129-192.168.1.190
+Broadcast adress: 192.168.1.191 användbara adressen 62.
+
+4.21 Vad betyder adressen FF:FF:FF:FF:FF:FF, och vad gör swit-
+chen med en ram som har den som mottagare? (Kapitel 2)
+
+Det är en broadcast adress för MAC adresser, switen tar emot en sån Mac adress så skickar den vidare ramen genom alla portar med samma vlan förutom där dem kom in via. 
+
+4.22 Vilken kolumn i show  Mac adress table avslöjar att en port ligger i fel nät? (Kapitel 2)
+
+Kolumnen vlan avslöjar om porten ligger i fel nät. Den visar vilket VLAN den anslutna enhetens MAC-adress har registrerats i.
