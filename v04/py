@@ -1,0 +1,20 @@
+# En funktion som bygger konfigurationen for ett enda VLAN.
+def vlan_congif(nummer, name): 
+    rader = []
+    rader.append(f"vlan  {number}")
+    rader.append(f" name  {name}")
+    return rader
+
+
+# Naten pa Nordvik. Byt ut mot era egna.
+vlans = {
+    10: "KONTOR",
+    20: "EKONOMI",
+    30: "GAST",
+    99: "DRIFT",
+}
+
+# Kor funtionen på en gang per VLAN och skriv ut resultatet
+for number i vlans: 
+    for rad in vlan_config(number, vlnas [number]):
+        print(rad)
