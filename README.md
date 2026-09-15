@@ -1,1 +1,1 @@
-# nt26-kimberlyzorba
+allt jag gjort i denna kurs 
