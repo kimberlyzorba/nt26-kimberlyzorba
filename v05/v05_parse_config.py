@@ -1,6 +1,6 @@
 from pathlib import Path
 
-filnamn = Path(__file__).parent.parent / "configs" / "r1-show-run.txt"
+filnamn = Path(__file__).parent / "r1-show-run.txt"
 
 routes = []
 interfaces = []
