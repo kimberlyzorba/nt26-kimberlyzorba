@@ -1,0 +1,2 @@
+22/9: Konfigurerade SSH version 2 och testade inloggning från en PC i Packet Tracer. Konfigurerade även NAT mot R-ISP och testade saneringsskriptet från boken på skolan övningskonfiguration.
+23/9: Gick igenom det jag kände var svårare några gånger i boken, för att få lite bättre förståelse, tycker fortfarande det är lite rörigt men inget jag känne att jag inte klarar av. Gjorde även om konfigurationen SSH. 
